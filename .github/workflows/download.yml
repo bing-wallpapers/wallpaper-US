@@ -2,33 +2,42 @@ name: Bing_Wallpaper_Download
 
 on:
   schedule:
-    - cron: "1 7 * * *" # 每天凌晨2点1分执行 (基于美国东部标准时间)
+    - cron: "1 5 * * *" # Run daily at 0:01 AM Eastern Time
   workflow_dispatch:
 
 jobs:
-  play:
+  download_wallpaper:
     runs-on: ubuntu-latest
-    env: # 设置整个 job 的环境变量
+    env: # Set environment variables for the entire job
       TZ: America/New_York
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com/
-      - name: Npm install
-        run: npm install
+          node-version: 16 # Set Node.js version to 16
+          registry-url: https://npm.pkg.github.com/ # Set the registry URL for npm
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm # Path to cache the Node.js modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Cache key based on the OS and package-lock.json
+          restore-keys: |
+            ${{ runner.os }}-node- # Fallback cache keys in case the exact match is not found
+      - name: Install dependencies
+        run: npm install # Install required dependencies for the project
       - name: Run Project
-        run: npm run start
-      - name: Commit files
+        run: npm run start # Run the start script for the project
+      - name: Configure Git user
         run: |
-          git config --local user.email "exposir@foxmail.com"
-          git config --local user.name "exposir"
-          git pull
-          git add ./
-          git commit -m "Update Bing wallpaper for $(date +'%Y-%m-%d')"
+          git config --local user.email "exposir@foxmail.com" # Set the Git user email
+          git config --local user.name "exposir" # Set the Git user name
+          git pull # Pull the latest changes from the repository
+          git add ./ # Stage all changes in the working directory
+          git commit -m "Update Bing wallpaper for $(date +'%Y-%m-%d')" # Commit the changes with a date
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
-          github_token: ${{ secrets.MY_GIT_TOKEN }}
-          branch: main
+          github_token: ${{ secrets.MY_GIT_TOKEN }} # Use the secret token for authentication
+          branch: main # Push the changes to the main branch
