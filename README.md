@@ -51,7 +51,6 @@ This repository is dedicated to storing daily wallpapers from Bing, specifically
     
     ```
     yarn start
-    
     ```
     
 4. After execution, the downloaded wallpapers will be saved in the **`static`** directory.
