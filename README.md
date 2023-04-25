@@ -5,7 +5,6 @@ This repository is dedicated to storing daily wallpapers from Bing, specifically
 ## **Directory Structure**
 
 ```
-csharpCopy code
 .
 ├── .github
 │   └── workflows
@@ -19,7 +18,6 @@ csharpCopy code
 ├── package.json
 ├── tsconfig.json
 └── yarn.lock
-
 ```
 
 ## **File Descriptions**
@@ -38,7 +36,6 @@ csharpCopy code
 1. Clone this repository:
     
     ```
-    bashCopy code
     git clone https://github.com/your_username/wallpaper-US.git
     
     ```
@@ -46,16 +43,13 @@ csharpCopy code
 2. Install dependencies:
     
     ```
-    bashCopy code
     cd wallpaper-US
     yarn install
-    
     ```
     
 3. Run the scraper:
     
     ```
-    sqlCopy code
     yarn start
     
     ```
